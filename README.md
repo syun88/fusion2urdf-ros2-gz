@@ -19,7 +19,7 @@ Copy-Item ".\URDF_Exporter_Ros2_gz\" -Destination "${env:APPDATA}\Autodesk\Autod
 
 ```bash
 cd <path to fusion2urdf-ros2>
-cp -r ./URDF_Exporter_Ros2_gz "$HOME/Library/Application Support/Autodesk/Autodesk Fusion 360/API/Scripts/"
+cp -r ./URDF_Exporter_Ros2_gz "$HOME/Library/Application\ Support/Autodesk/Autodesk\ Fusion\ 360/API/Scripts"
 ```
 
 ## What is this script?
