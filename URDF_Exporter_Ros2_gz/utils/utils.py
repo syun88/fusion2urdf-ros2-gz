@@ -173,7 +173,7 @@ def update_setup_py(save_dir, package_name):
     file_name = save_dir + '/setup.py'
 
     for line in fileinput.input(file_name, inplace=True):
-        if "package_name = 'fusion2urdf_ros2'" in line:
+        if "package_name = 'fusion2urdf_ros2_gz'" in line:
             sys.stdout.write("package_name = '" + package_name + "'\n")
         else:
             sys.stdout.write(line)

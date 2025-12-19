@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>package_name</name>
+  <name>fusion2urdf_ros2_gz</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="todo@todo.com">author</maintainer>
-  <license>TODO: License declaration</license>
+  <description>fusion2urdf_ros2_gz base package</description>
+  <maintainer email="syun88@example.com">CHEN JUNGMING (syun88)</maintainer>
+  <license>MIT</license>
 
   <depend>xacro</depend>
   <depend>rviz2</depend>

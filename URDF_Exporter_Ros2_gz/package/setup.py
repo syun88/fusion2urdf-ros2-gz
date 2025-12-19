@@ -2,7 +2,7 @@ from setuptools import setup
 import os
 from glob import glob
 
-package_name = 'fusion2urdf_ros2'
+package_name = 'fusion2urdf_ros2_gz'
 
 setup(
     name=package_name,
@@ -19,10 +19,10 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='author',
-    maintainer_email='todo@todo.com',
+    maintainer='CHEN JUNGMING (syun88)',
+    maintainer_email='syun88@example.com',
     description='The ' + package_name + ' package',
-    license='TODO: License declaration',
+    license='MIT',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
