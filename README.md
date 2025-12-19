@@ -27,7 +27,7 @@ This is a fusion 360 script to export urdf from fusion 360 directly.
 
 This exports:
 * .urdf file of your model
-* .launch.py files to simulate your robot on gazebo and rviz
+* .launch.py files to simulate your robot on Gazebo (ros_gz_sim) and rviz
 * .stl files of your model
 
 ### Sample 
@@ -171,9 +171,10 @@ ros2 launch (whatever your robot_name is)_description display.launch.py
 
 <img src="https://github.com/syuntoku14/fusion2urdf/blob/images/rviz_robot.png" alt="rviz" title="rviz" width="300" height="300">
 
-If you want to simulate your robot on gazebo, just run
+If you want to simulate your robot on Gazebo (Gazebo Sim via `ros_gz_sim`), make sure the `ros_gz_sim` package is installed in your ROS 2 distro and run
 ```bash
 ros2 launch (whatever your robot_name is)_description gazebo.launch.py
 ```
+The Gazebo launch file now targets the newer Gazebo/ros_gz stack (not Gazebo Classic) and accepts optional arguments such as `world:=<path-to-world.sdf>` or `gz_args:="-r <path-to-world.sdf>"` if you want to start with a custom world.
 
 **Enjoy your Fusion 360 and ROS2 life!**

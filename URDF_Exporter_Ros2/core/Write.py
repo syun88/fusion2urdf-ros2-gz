@@ -6,9 +6,7 @@ Created on Sun May 12 20:46:26 2019
 """
 
 import adsk, os
-from xml.etree.ElementTree import Element, SubElement
 from . import Link, Joint, launch_templates
-from ..utils import utils
 
 def write_link_urdf(joints_dict, repo, links_xyz_dict, file_name, inertial_dict):
     """
@@ -106,7 +104,7 @@ to swap component1<=>component2"
 
 def write_gazebo_endtag(file_name):
     """
-    Write about gazebo_plugin and the </robot> tag at the end of the urdf
+    Write the closing </robot> tag at the end of the urdf
 
 
     Parameters
@@ -218,12 +216,6 @@ def write_gazebo_xacro(joints_dict, links_xyz_dict, inertial_dict, package_name,
         f.write('\n')
         f.write('<xacro:property name="body_color" value="Gazebo/Silver" />\n')
         f.write('\n')
-
-        gazebo = Element('gazebo')
-        plugin = SubElement(gazebo, 'plugin')
-        plugin.attrib = {'name':'control', 'filename':'libgazebo_ros_control.so'}
-        gazebo_xml = "\n".join(utils.prettify(gazebo).split("\n")[1:])
-        f.write(gazebo_xml)
 
         # for base_link
         f.write('<gazebo reference="base_link">\n')
