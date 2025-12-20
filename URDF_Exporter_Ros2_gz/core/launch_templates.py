@@ -8,6 +8,9 @@ from launch_ros.actions import Node
 from launch_ros.descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
+PACKAGE_NAME = "%s"
+ROBOT_NAME = "%s"
+
 
 def _package_available(package_name: str) -> bool:
     try:
@@ -20,8 +23,8 @@ def _package_available(package_name: str) -> bool:
 
 
 def generate_launch_description() -> LaunchDescription:
-    pkg_share = FindPackageShare(package="urdf_description").find("urdf_description")
-    default_model_path = os.path.join(pkg_share, "urdf", "urdf.xacro")
+    pkg_share = FindPackageShare(package=PACKAGE_NAME).find(PACKAGE_NAME)
+    default_model_path = os.path.join(pkg_share, "urdf", ROBOT_NAME + ".xacro")
     default_rviz_config_path = os.path.join(pkg_share, "config", "display.rviz")
     default_world_path = os.path.join(pkg_share, "worlds", "room.sdf")
     default_gz_args = f"-r -v 4 {default_world_path}"
@@ -121,7 +124,7 @@ def generate_launch_description() -> LaunchDescription:
     ld.add_action(
         DeclareLaunchArgument(
             name="entity_name",
-            default_value="dual_scorpion",
+            default_value=ROBOT_NAME,
             description="Spawned entity name in Gazebo",
         )
     )
@@ -401,4 +404,4 @@ def get_display_launch_text(package_name, robot_name):
 
 
 def get_gazebo_launch_text(package_name, robot_name):
-    return gazebo_launch % (package_name, robot_name, robot_name)
+    return gazebo_launch % (package_name, robot_name)
