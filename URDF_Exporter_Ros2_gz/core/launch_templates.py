@@ -49,13 +49,28 @@ def generate_launch_description() -> LaunchDescription:
     )
 
     joint_state_publisher_node = None
-    if _package_available("joint_state_publisher"):
+    if _package_available("joint_state_publisher_gui"):
+        joint_state_publisher_node = Node(
+            package="joint_state_publisher_gui",
+            executable="joint_state_publisher_gui",
+            name="joint_state_publisher_gui",
+            output="screen",
+            parameters=[
+                {"use_sim_time": use_sim_time},
+                {"robot_description": robot_description},
+            ],
+            condition=IfCondition(use_joint_state_publisher),
+        )
+    elif _package_available("joint_state_publisher"):
         joint_state_publisher_node = Node(
             package="joint_state_publisher",
             executable="joint_state_publisher",
             name="joint_state_publisher",
             output="screen",
-            parameters=[{"use_sim_time": use_sim_time}],
+            parameters=[
+                {"use_sim_time": use_sim_time},
+                {"robot_description": robot_description},
+            ],
             condition=IfCondition(use_joint_state_publisher),
         )
 
@@ -83,9 +98,9 @@ def generate_launch_description() -> LaunchDescription:
     clock_bridge_node = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
-        arguments=["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock]"],
+        arguments=["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"],
         output="screen",
-        condition=IfCondition(start_gz),
+        condition=IfCondition(use_sim_time),
     )
 
     spawn_entity_node = Node(
@@ -111,7 +126,7 @@ def generate_launch_description() -> LaunchDescription:
         DeclareLaunchArgument(
             name="use_joint_state_publisher",
             default_value="True",
-            description="Run joint_state_publisher (disable if /joint_states comes from sim)",
+            description="Run joint_state_publisher(_gui) (disable if /joint_states comes from sim)",
         )
     )
     ld.add_action(
@@ -131,15 +146,15 @@ def generate_launch_description() -> LaunchDescription:
     ld.add_action(
         DeclareLaunchArgument(
             name="use_sim_time",
-            default_value="True",
-            description="Flag to enable use_sim_time",
+            default_value="False",
+            description="Flag to enable use_sim_time (requires /clock bridge)",
         )
     )
     ld.add_action(
         DeclareLaunchArgument(
             name="start_gz",
-            default_value=use_sim_time,
-            description="Launch Gazebo Sim + spawn the robot (defaults to use_sim_time value)",
+            default_value="True",
+            description="Launch Gazebo Sim + spawn the robot",
         )
     )
     ld.add_action(

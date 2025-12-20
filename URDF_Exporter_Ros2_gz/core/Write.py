@@ -8,6 +8,9 @@ Created on Sun May 12 20:46:26 2019
 import adsk, os
 from . import Link, Joint, launch_templates
 
+DUMMY_ROOT_LINK = 'base_link_root'
+DUMMY_ROOT_JOINT = 'base_link_root_joint'
+
 def write_link_urdf(joints_dict, repo, links_xyz_dict, file_name, inertial_dict):
     """
     Write links information into urdf "repo/file_name"
@@ -32,6 +35,11 @@ def write_link_urdf(joints_dict, repo, links_xyz_dict, file_name, inertial_dict)
     The origin of the coordinate of center_of_mass is the coordinate of the link
     """
     with open(file_name, mode='a') as f:
+        # Dummy root to avoid KDL warnings about inertial on the root link.
+        f.write('<link name="{}"/>\n'.format(DUMMY_ROOT_LINK))
+        f.write('\n')
+        links_xyz_dict[DUMMY_ROOT_LINK] = [0, 0, 0]
+
         # for base_link
         center_of_mass = inertial_dict['base_link']['center_of_mass']
         link = Link.Link(name='base_link', xyz=[0,0,0],
@@ -76,6 +84,20 @@ def write_joint_urdf(joints_dict, repo, links_xyz_dict, file_name):
     """
 
     with open(file_name, mode='a') as f:
+        dummy_joint = Joint.Joint(
+            name=DUMMY_ROOT_JOINT,
+            joint_type='fixed',
+            xyz=[0, 0, 0],
+            axis=[0, 0, 0],
+            parent=DUMMY_ROOT_LINK,
+            child='base_link',
+            upper_limit=0.0,
+            lower_limit=0.0,
+        )
+        dummy_joint.make_joint_xml()
+        f.write(dummy_joint.joint_xml)
+        f.write('\n')
+
         for j in joints_dict:
             parent = joints_dict[j]['parent']
             child = joints_dict[j]['child']
