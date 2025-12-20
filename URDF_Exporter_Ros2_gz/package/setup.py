@@ -20,7 +20,7 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='CHEN JUNGMING (syun88)',
-    maintainer_email='syun88@example.com',
+    maintainer_email='jimmy880510@gmail.com',
     description='The ' + package_name + ' package',
     license='MIT',
     tests_require=['pytest'],
