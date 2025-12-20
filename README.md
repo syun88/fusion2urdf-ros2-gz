@@ -27,7 +27,7 @@ This is a fusion 360 script to export urdf from fusion 360 directly.
 
 This exports:
 * .urdf file of your model
-* .launch.py files to simulate your robot on Gazebo (ros_gz_sim) and rviz
+* launch files: display.launch.py (Gazebo + RViz) and rviz.launch.py (RViz only)
 * .stl files of your model
 
 ### Sample 
@@ -152,29 +152,32 @@ The folder "Desktop/test" will be required in the next step. Move them into your
 #### In your ROS environment
 
 Place the generated _description package directory in your own ROS workspace. "model_ws" is used in this example.
-Then, run catkin_make in catkin_ws.
+Then, run colcon build in your workspace.
 
 ```bash
 cd ~/model_ws/
 colcon build
 ```
 
-Now you can see your robot in rviz by using the following command.
-
-Open a new terminal
+To view your robot in RViz only, run:
 
 ```bash
 cd ~/model_ws/
 source install/setup.bash
-ros2 launch (whatever your robot_name is)_description display.launch.py
+ros2 launch (whatever your robot_name is)_description rviz.launch.py
 ```
 
 <img src="https://github.com/syuntoku14/fusion2urdf/blob/images/rviz_robot.png" alt="rviz" title="rviz" width="300" height="300">
 
-If you want to simulate your robot on Gazebo (Gazebo Sim via `ros_gz_sim`), make sure the `ros_gz_sim` package is installed in your ROS 2 distro and run
+If you want to simulate your robot on Gazebo (Gazebo Sim via `ros_gz_sim`), make sure the `ros_gz_sim` package is installed in your ROS 2 distro and run:
 ```bash
-ros2 launch (whatever your robot_name is)_description gazebo.launch.py
+ros2 launch (whatever your robot_name is)_description display.launch.py
 ```
-The Gazebo launch file now targets the newer Gazebo/ros_gz stack (not Gazebo Classic) and accepts optional arguments such as `world:=<path-to-world.sdf>` or `gz_args:="-r <path-to-world.sdf>"` if you want to start with a custom world.
+The Gazebo launch file now targets the newer Gazebo/ros_gz stack (not Gazebo Classic) and accepts optional arguments such as `gz_args:="-r <path-to-world.sdf>"` if you want to start with a custom world.
+
+Notes:
+- The exported xacro includes a fixed dummy root link (`base_link_root`) to avoid KDL warnings about inertia on the root.
+- `display.launch.py` loads the packaged `worlds/room.sdf` by default; replace that file or pass `gz_args` to use your own world.
+- `use_sim_time` defaults to `False`; set `use_sim_time:=True` only if your `/clock` bridge is working.
 
 **Enjoy your Fusion 360 and ROS2 life!**
